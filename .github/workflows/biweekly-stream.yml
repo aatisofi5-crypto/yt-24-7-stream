@@ -2,10 +2,10 @@ name: Biweekly 12h YouTube Stream
 
 on:
   schedule:
-    # Week 2 Wednesday 09:00 IST (03:30 UTC)
-    - cron: '30 3 8-14 * 3'
-    # Week 4 Wednesday 09:00 IST (03:30 UTC)
-    - cron: '30 3 22-28 * 3'
+    # Week 2 Wednesday 11:00 IST (05:30 UTC)
+    - cron: '30 5 8-14 * 3'
+    # Week 4 Wednesday 11:00 IST (05:30 UTC)
+    - cron: '30 5 22-28 * 3'
   workflow_dispatch:
 
 jobs:
