@@ -3,7 +3,7 @@ name: test stream
 on:
   schedule:
     # 2:30 UTC = 8:00 AM IST
-    - cron: '45 1 * * 1,4'
+    - cron: '50 1 * * 1,4'
   workflow_dispatch:
 
 jobs:
