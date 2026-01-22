@@ -22,4 +22,4 @@ jobs:
           ffmpeg -re -stream_loop -1 -i video_24mb.mp4 \
           -c:v libx264 -preset ultrafast -pix_fmt yuv420p \
           -c:a aac -ar 44100 -b:a 128k \
-          -f flv rtmp://a.rtmp.youtube.com/live2/${{ secrets.TEST_KEY }}
+          -f flv rtmp://a.rtmp.youtube.com/live2/${{ secrets.STREAM_KEY }}
