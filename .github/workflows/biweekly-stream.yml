@@ -3,9 +3,9 @@ name: Biweekly 12h YouTube Stream
 on:
   schedule:
     # Week 2 Wednesday 11:00 IST (05:30 UTC)
-    - cron: '30 5 8-14 * 3'
+    - cron: '30 4 8-14 * 3'
     # Week 4 Wednesday 11:00 IST (05:30 UTC)
-    - cron: '30 5 22-28 * 3'
+    - cron: '30 4 22-28 * 3'
   workflow_dispatch:
 
 jobs:
@@ -24,9 +24,9 @@ jobs:
         run: |
           DAY=$(date -u +%d)
           if [ "$DAY" -ge 8 ] && [ "$DAY" -le 14 ]; then
-            echo "VIDEO=week4.mp4" >> $GITHUB_ENV
+            echo "VIDEO=week-2.mp4" >> $GITHUB_ENV
           else
-            echo "VIDEO=week4.mp4" >> $GITHUB_ENV
+            echo "VIDEO=week-4.mp4" >> $GITHUB_ENV
           fi
 
       - name: Stream to YouTube
