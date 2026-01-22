@@ -34,4 +34,4 @@ jobs:
           ffmpeg -re -stream_loop -1 -i "$VIDEO" \
           -c:v libx264 -preset veryfast -pix_fmt yuv420p \
           -c:a aac -b:a 128k -ar 44100 \
-          -f flv "rtmp://a.rtmp.youtube.com/live2/${{ secrets.YT_STREAM_KEY }}"
+          -f flv "rtmp://a.rtmp.youtube.com/live2/${{ secrets.TEST_KEY }}"
