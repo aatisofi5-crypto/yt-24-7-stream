@@ -1,0 +1,33 @@
+name: YouTube Live Stream (10 Minutes)
+
+on:
+  schedule:
+    - cron: '30 8 * * *'   # 2:00 PM IST = 08:30 UTC (REMOVE after today)
+  workflow_dispatch:
+
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Verify video file exists
+        run: |
+          ls -lh
+          ffmpeg -i test.mp4
+
+      - name: Start YouTube Live Stream (10 minutes)
+        run: |
+          timeout 600 ffmpeg -re -stream_loop -1 -i test.mp4 \
+          -c:v libx264 -preset veryfast -pix_fmt yuv420p \
+          -g 60 -keyint_min 60 \
+          -c:a aac -b:a 128k -ar 44100 \
+          -f flv \
+          "rtmp://a.rtmp.youtube.com/live2/${{ secrets.TEST_KEY }}"
