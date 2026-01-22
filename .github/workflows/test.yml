@@ -1,28 +1,35 @@
-name: test stream 
+name: Automated YouTube Live Stream
 
 on:
-  schedule:
-    # 2:30 UTC = 8:00 AM IST
-    - cron: '15 2 * * 1,4'
   workflow_dispatch:
+  schedule:
+    - cron: '20 2 * * 1,4'   # 07:50 AM IST (Mon & Thu)
 
 jobs:
   stream:
     runs-on: ubuntu-latest
-    timeout-minutes: 70   # safety
+    timeout-minutes: 65
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Install FFmpeg
-        run: sudo apt update && sudo apt install -y ffmpeg
-
-       - name: Stream for 1 hour
         run: |
-            timeout 3600 ffmpeg -re -stream_loop -1 -i test.mp4 \
-            -c:v libx264 -preset ultrafast -tune zerolatency \
-             -pix_fmt yuv420p -profile:v baseline \
-             -g 60 -keyint_min 60 -sc_threshold 0 \
-             -r 30 -b:v 2500k -maxrate 2500k -bufsize 5000k \
-            -c:a aac -ar 44100 -b:a 128k \
-            -f flv rtmp://a.rtmp.youtube.com/live2/${{ secrets.TEST_KEY }} || true
+          sudo apt update
+          sudo apt install -y ffmpeg
+
+      - name: Verify video file
+        run: |
+          ls -lh
+          ffprobe test.mp4
+
+      - name: Start YouTube Live Stream
+        run: |
+          ffmpeg -re -stream_loop -1 -i test.mp4 \
+          -c:v libx264 -preset veryfast -tune zerolatency \
+          -pix_fmt yuv420p -profile:v baseline \
+          -r 30 -g 60 -keyint_min 60 -sc_threshold 0 \
+          -b:v 2500k -maxrate 2500k -bufsize 5000k \
+          -c:a aac -ar 44100 -b:a 128k \
+          -f flv rtmp://a.rtmp.youtube.com/live2/${{ secrets.TEST_KEY }} || true
