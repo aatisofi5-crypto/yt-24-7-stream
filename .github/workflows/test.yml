@@ -3,7 +3,7 @@ name: TEST VIDEO
 on:
   schedule:
     # 2:30 UTC = 8:00 AM IST
-    - cron: '45 8 * * 4'
+    - cron: '10 9 * * 4'
   workflow_dispatch:
 
 jobs:
