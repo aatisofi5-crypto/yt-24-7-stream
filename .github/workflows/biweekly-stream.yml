@@ -24,7 +24,7 @@ jobs:
         run: |
           DAY=$(date -u +%d)
           if [ "$DAY" -ge 8 ] && [ "$DAY" -le 14 ]; then
-            echo "VIDEO=week2.mp4" >> $GITHUB_ENV
+            echo "VIDEO=week4.mp4" >> $GITHUB_ENV
           else
             echo "VIDEO=week4.mp4" >> $GITHUB_ENV
           fi
