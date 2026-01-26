@@ -1,9 +1,6 @@
 name: Scheduled YouTube Stream (Mon & Fri)
 
 on:
-  schedule:
-    # 8:00 PM IST = 02:30 UTC (Mon & Fri)
-    - cron: '30 2 * * 1,5'
   workflow_dispatch:
 
 jobs:
@@ -20,11 +17,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      - name: Verify video file
-        run: |
-          ls -lh
-          ffmpeg -i video_24mb.mp4
-
       - name: Stream to YouTube
         run: |
-         ffmpeg -re -stream_loop -1 -i video_24mb.mp4 -c:v libx264 -preset veryfast -pix_fmt yuv420p -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/${{ secrets.STREAM_KEY }}"
+         ffmpeg -re -stream_loop -1 -i video_24mb.mp4 \
+         -c:v libx264 -preset veryfast -pix_fmt yuv420p \
+         -c:a aac -b:a 128k -ar 44100 \
+         -f flv "rtmp://a.rtmp.youtube.com/live2/${{ secrets.STREAM_KEY }}"
