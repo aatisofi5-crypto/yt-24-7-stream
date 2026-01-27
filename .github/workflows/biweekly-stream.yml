@@ -1,9 +1,6 @@
 name: Biweekly 12h YouTube Live (Auto)
 
 on:
-  schedule:
-    # Week 4 Wednesday – 11:00 IST (05:30 UTC)
-    - cron: '15 4 28 * 3'
   workflow_dispatch:
 
 jobs:
