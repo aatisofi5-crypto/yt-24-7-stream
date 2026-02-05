@@ -1,4 +1,4 @@
-name: Vertical Live Stream (4 Videos – Safe)
+name: Vertical Live Stream (4 Videos – Runner Safe)
 
 on:
   workflow_dispatch:
@@ -16,28 +16,25 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      - name: Normalize and join 4 videos
+      - name: Join 4 videos (low memory)
         run: |
-          ffmpeg \
+          ffmpeg -y \
+          -threads 2 \
           -i tariq_jameel.mp4 \
           -i drisrar.mp4 \
           -i tariq_jameel2.mp4 \
           -i drisrar2.mp4 \
           -filter_complex "
-            [0:v]scale=1080:1920,fps=30,format=yuv420p[v0];
-            [0:a]aresample=44100[a0];
-            [1:v]scale=1080:1920,fps=30,format=yuv420p[v1];
-            [1:a]aresample=44100[a1];
-            [2:v]scale=1080:1920,fps=30,format=yuv420p[v2];
-            [2:a]aresample=44100[a2];
-            [3:v]scale=1080:1920,fps=30,format=yuv420p[v3];
-            [3:a]aresample=44100[a3];
+            [0:v]format=yuv420p[v0];[0:a]aresample=44100[a0];
+            [1:v]format=yuv420p[v1];[1:a]aresample=44100[a1];
+            [2:v]format=yuv420p[v2];[2:a]aresample=44100[a2];
+            [3:v]format=yuv420p[v3];[3:a]aresample=44100[a3];
             [v0][a0][v1][a1][v2][a2][v3][a3]
             concat=n=4:v=1:a=1[outv][outa]
           " \
           -map "[outv]" -map "[outa]" \
-          -c:v libx264 -preset veryfast \
-          -c:a aac -b:a 128k \
+          -c:v libx264 -preset ultrafast -crf 28 \
+          -c:a aac -b:a 96k \
           joined.mp4
 
       - name: Stream joined video for 6 hours
