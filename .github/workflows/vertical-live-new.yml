@@ -1,4 +1,4 @@
-name: Vertical Live Stream (2 Videos, 6 Hours)
+name: Vertical Live Stream (2 Videos Fixed)
 
 on:
   workflow_dispatch:
@@ -17,17 +17,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      - name: Create concat list
+      - name: Stream to YouTube (6 Hours – Fixed Sync)
         run: |
-          echo "file 'tariq_jameel.mp4'" > videos.txt
-          echo "file 'tariq_jameel2.mp4'" >> videos.txt
-
-      - name: Stream to YouTube (6 Hours)
-        run: |
-          ffmpeg \
-          -re \
-          -stream_loop -1 \
-          -f concat -safe 0 -i videos.txt \
+          ffmpeg -re \
+          -stream_loop -1 -i tariq_jameel.mp4 \
+          -stream_loop -1 -i tariq_jameel2.mp4 \
+          -filter_complex "
+            [0:v][0:a][1:v][1:a]
+            concat=n=2:v=1:a=1
+          " \
           -t 21600 \
           -c:v libx264 -preset veryfast -pix_fmt yuv420p \
           -c:a aac -b:a 128k -ar 44100 \
