@@ -22,7 +22,7 @@ jobs:
 
       - name: Stream YouTube video to YouTube Live
         run: |
-          yt-dlp -f bestvideo+bestaudio \ -o - "https://www.youtube.com/live/6PRlTHfzIqA?si=sBK5pISvioSqHMTV" | \
+          yt-dlp -f bestvideo+bestaudio \ -o - "https://youtu.be/DzJtBIl_F_0?si=A-zTEn6xL2JbXOy5" | \
           ffmpeg -re -i pipe:0 \
             -c:v libx264 -preset veryfast -pix_fmt yuv420p \
             -c:a aac -b:a 128k -ar 44100 \
