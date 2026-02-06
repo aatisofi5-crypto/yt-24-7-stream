@@ -1,0 +1,29 @@
+name: Test Live Stream
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install FFmpeg & yt-dlp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp \
+            -o /usr/local/bin/yt-dlp
+          sudo chmod a+rx /usr/local/bin/yt-dlp
+
+      - name: Stream YouTube video to YouTube Live
+        run: |
+          yt-dlp -f bestvideo+bestaudio \ -o - "https://www.youtube.com/live/6PRlTHfzIqA?si=sBK5pISvioSqHMTV" | \
+          ffmpeg -re -i pipe:0 \
+            -c:v libx264 -preset veryfast -pix_fmt yuv420p \
+            -c:a aac -b:a 128k -ar 44100 \
+            -f flv "rtmp://a.rtmp.youtube.com/live2/${{ secrets.TEST_KEY }}"
