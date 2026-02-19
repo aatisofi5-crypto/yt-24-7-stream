@@ -17,7 +17,7 @@ jobs:
       - name: Stream Part 1 (~6h)
         run: |
           ffmpeg -re \
-            -loop 1 -i cover.jpg \
+            -loop 1 -i collection.png \
             -stream_loop -1 -i lofi_naat.mp3 \
             -c:v libx264 -preset veryfast -tune stillimage \
             -pix_fmt yuv420p -r 30 \
@@ -43,7 +43,7 @@ jobs:
       - name: Stream Part 2 (~6h)
         run: |
           ffmpeg -re \
-            -loop 1 -i cover.jpg \
+            -loop 1 -i collection.png \
             -stream_loop -1 -i lofi_naat.mp3 \
             -c:v libx264 -preset veryfast -tune stillimage \
             -pix_fmt yuv420p -r 30 \
