@@ -1,0 +1,54 @@
+name: YouTube Live (Image + Audio)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stream_part_1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Stream Part 1 (~6h)
+        run: |
+          ffmpeg -re \
+          -stream_loop -1 -i video.mp4 \
+          -stream_loop -1 -i sehri.mp3 \
+          -map 0:v:0 -map 1:a:0 \
+          -c:v libx264 -preset veryfast -pix_fmt yuv420p -r 30 \
+          -c:a aac -b:a 128k -ar 44100 \
+          -shortest \
+           -f flv \
+           "rtmp://a.rtmp.youtube.com/live2/${{ secrets.YT_STREAM_KEY }}" &
+          
+          sleep 21000
+          kill $!
+          
+  stream_part_2:
+    needs: stream_part_1
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Stream Part 2 (≈6h)
+        run: |
+          ffmpeg -re \
+          -stream_loop -1 -i video.mp4 \
+          -stream_loop -1 -i sehri.mp3 \
+          -map 0:v:0 -map 1:a:0 \
+          -c:v libx264 -preset veryfast -pix_fmt yuv420p -r 30 \
+          -c:a aac -b:a 128k -ar 44100 \
+          -shortest \
+          -f flv \
+          "rtmp://a.rtmp.youtube.com/live2/${{ secrets.YT_STREAM_KEY }}"
+          
