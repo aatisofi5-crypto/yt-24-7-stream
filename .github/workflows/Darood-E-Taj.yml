@@ -1,4 +1,4 @@
-name: Biweekly 12h YouTube Live (Auto)
+name: Darood E Taj 
 
 on:
   workflow_dispatch:
@@ -16,11 +16,11 @@ jobs:
 
       - name: Stream Part 1 (≈6h)
         run: |
-          ffmpeg -re -stream_loop -1 -i week2.mp4 \
+          ffmpeg -re -stream_loop -1 -i video_24mb.mp4 \
           -c:v libx264 -preset veryfast -pix_fmt yuv420p \
           -c:a aac -b:a 128k -ar 44100 \
           -f flv \
-          "rtmp://a.rtmp.youtube.com/live2/${{ secrets.YT_STREAM_KEY }}" &
+          "rtmp://a.rtmp.youtube.com/live2/${{ secrets.STREAM_KEY }}" &
           sleep 21000
           kill $! 
 
@@ -37,8 +37,8 @@ jobs:
 
       - name: Stream Part 2 (≈6h)
         run: |
-          ffmpeg -re -stream_loop -1 -i week2.mp4 \
+          ffmpeg -re -stream_loop -1 -i video_24mb.mp4 \
           -c:v libx264 -preset veryfast -pix_fmt yuv420p \
           -c:a aac -b:a 128k -ar 44100 \
           -f flv \
-          "rtmp://a.rtmp.youtube.com/live2/${{ secrets.YT_STREAM_KEY }}"
+          "rtmp://a.rtmp.youtube.com/live2/${{ secrets. STREAM_KEY }}"
