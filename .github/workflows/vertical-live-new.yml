@@ -6,7 +6,7 @@ on:
 jobs:
   stream:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    timeout-minutes: 370
 
     steps:
       - uses: actions/checkout@v4
@@ -24,13 +24,13 @@ jobs:
           -i drisrar3.mp4 \
           -i drisrar4.mp4 \
           -filter_complex "
-            [0:v]scale=1080:1920,fps=30,format=yuv420p[v0];
+            [0:v]scale=1080:1920,setsar=1,fps=30,format=yuv420p[v0];
             [0:a]aresample=44100[a0];
-            [1:v]scale=1080:1920,fps=30,format=yuv420p[v1];
+            [1:v]scale=1080:1920,setsar=1,fps=30,format=yuv420p[v1];
             [1:a]aresample=44100[a1];
-            [2:v]scale=1080:1920,fps=30,format=yuv420p[v2];
+            [2:v]scale=1080:1920,setsar=1,fps=30,format=yuv420p[v2];
             [2:a]aresample=44100[a2];
-            [3:v]scale=1080:1920,fps=30,format=yuv420p[v3];
+            [3:v]scale=1080:1920,setsar=1,fps=30,format=yuv420p[v3];
             [3:a]aresample=44100[a3];
             [v0][a0][v1][a1][v2][a2][v3][a3]concat=n=4:v=1:a=1[outv][outa]
           " \
