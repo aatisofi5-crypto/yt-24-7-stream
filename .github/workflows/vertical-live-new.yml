@@ -19,8 +19,8 @@ jobs:
       - name: Normalize and join videos
         run: |
           ffmpeg \
-          -i tariq_jameel.mp4 \
-          -i tariq_jameel2.mp4 \
+          -i drisrar.mp4 \
+          -i drisrar2.mp4 \
           -filter_complex "
             [0:v]scale=1080:1920,fps=30,format=yuv420p[v0];
             [0:a]aresample=44100[a0];
